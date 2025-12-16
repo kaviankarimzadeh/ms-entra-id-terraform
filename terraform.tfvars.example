@@ -1,0 +1,117 @@
+# ============================================================================
+# Example Terraform Variables for Microsoft Entra ID
+# ============================================================================
+# Copy this file to terraform.tfvars and customize for your environment
+# ============================================================================
+
+# -----------------------------------------------------------------------------
+# Required: Azure AD Tenant Configuration
+# -----------------------------------------------------------------------------
+tenant_id   = "your-tenant-id-here"
+domain_name = "yourdomain.onmicrosoft.com"
+
+# -----------------------------------------------------------------------------
+# Security Groups
+# -----------------------------------------------------------------------------
+groups = {
+  "dev-team" = {
+    display_name     = "Development Team"
+    description      = "All developers"
+    security_enabled = true
+  }
+  "ops-team" = {
+    display_name     = "Operations Team"
+    description      = "DevOps and SRE engineers"
+    security_enabled = true
+  }
+  "qa-team" = {
+    display_name     = "QA Team"
+    description      = "Quality assurance testers"
+    security_enabled = true
+  }
+  "app-admins" = {
+    display_name     = "Application Administrators"
+    description      = "Users with admin access to applications"
+    security_enabled = true
+  }
+  "readonly-users" = {
+    display_name     = "Read-Only Users"
+    description      = "Users with read-only access"
+    security_enabled = true
+  }
+}
+
+# -----------------------------------------------------------------------------
+# Test Users
+# -----------------------------------------------------------------------------
+users = {
+  "john.doe" = {
+    display_name        = "John Doe"
+    user_principal_name = "john.doe@yourdomain.onmicrosoft.com"
+    department          = "Engineering"
+    job_title           = "Senior Developer"
+    groups              = ["dev-team", "app-admins"]
+  }
+  "jane.smith" = {
+    display_name        = "Jane Smith"
+    user_principal_name = "jane.smith@yourdomain.onmicrosoft.com"
+    department          = "Engineering"
+    job_title           = "DevOps Engineer"
+    groups              = ["ops-team", "app-admins"]
+  }
+  "bob.wilson" = {
+    display_name        = "Bob Wilson"
+    user_principal_name = "bob.wilson@yourdomain.onmicrosoft.com"
+    department          = "QA"
+    job_title           = "QA Engineer"
+    groups              = ["qa-team", "readonly-users"]
+  }
+  "alice.brown" = {
+    display_name        = "Alice Brown"
+    user_principal_name = "alice.brown@yourdomain.onmicrosoft.com"
+    department          = "Engineering"
+    job_title           = "Junior Developer"
+    groups              = ["dev-team", "readonly-users"]
+  }
+  "test.user" = {
+    display_name        = "Test User"
+    user_principal_name = "test.user@yourdomain.onmicrosoft.com"
+    department          = "Testing"
+    job_title           = "Test Account"
+    groups              = ["readonly-users"]
+  }
+}
+
+# -----------------------------------------------------------------------------
+# Password Settings
+# -----------------------------------------------------------------------------
+password_length       = 16
+force_password_change = true
+
+# -----------------------------------------------------------------------------
+# OIDC Applications (for SSO integration)
+# -----------------------------------------------------------------------------
+oidc_applications = {
+  "gitlab" = {
+    display_name     = "GitLab OIDC"
+    redirect_uris    = [
+      "https://gitlab.example.com/users/auth/openid_connect/callback"
+    ]
+    id_token_enabled = false
+  }
+  "argocd" = {
+    display_name     = "ArgoCD OIDC"
+    redirect_uris    = [
+      "https://argocd.example.com/auth/callback"
+    ]
+    id_token_enabled = false
+  }
+  "kubernetes" = {
+    display_name     = "Kubernetes OIDC"
+    redirect_uris    = [
+      "http://localhost:8000",
+      "http://localhost:18000"
+    ]
+    id_token_enabled = true  # Required for kubectl oidc-login
+  }
+}
