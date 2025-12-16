@@ -47,9 +47,6 @@ terraform apply
 ```bash
 # Get all user passwords (sensitive)
 terraform output -json user_initial_passwords
-
-# Get specific user password
-terraform output -json user_initial_passwords | jq -r '.["core-developer-1"]'
 ```
 
 > **Note**: Users are forced to change their password on first login (`force_password_change = true`).
